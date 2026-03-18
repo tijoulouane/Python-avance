@@ -16,7 +16,7 @@ from dash import html, dcc, dash_table, Input, Output
 
 # %%
 # 1. Chargement des données
-df= pd.read_csv("C:\\Users\\louan\\Documents\\M1\\S2\\Python_avancé\\cours-m1-ecap\\datasets\\data.csv")
+df = pd.read_csv("data.csv")
 df = df.iloc[:52923]
 # df.info()
 # Chaque ligne représente une vente 
@@ -183,51 +183,6 @@ def plot_evolution_chiffre_affaire(df):
         template='plotly_white')
 
     return fig
-
-# %%
-# `plot_chiffre_affaire_mois(data)`
-
-def plot_chiffre_affaire_mois(data):
-    """
-    Evolution du chiffre d'affaires par mois avec ligne continue
-    et fond bleu clair.
-    """
-    data["Transaction_Date"] = pd.to_datetime(data["Transaction_Date"])
-    
-    # Par mois
-    df_ca = data.groupby(pd.Grouper(key="Transaction_Date", freq='M'))["Total_price"].sum().reset_index()
-    
-    fig = go.Figure()
-    
-    # Ligne continue
-    fig.add_trace(go.Scatter(
-        x=df_ca["Transaction_Date"],
-        y=df_ca["Total_price"],
-        mode='lines',  # juste la ligne
-        line=dict(color='royalblue', width=3),
-        name="Chiffre d'affaires"
-    ))
-    
-    fig.update_layout(
-        title="Évolution mensuelle du chiffre d'affaires",
-        xaxis_title="Mois",
-        yaxis_title="Chiffre d'affaires",
-        plot_bgcolor='#e5ecf6',
-        paper_bgcolor='white',
-        xaxis=dict(
-            tickformat="%b %Y",
-            dtick="M2",
-            showgrid=True,
-            gridcolor='white'
-        ),
-        yaxis=dict(
-            showgrid=True,
-            gridcolor='white'
-            # <-- pas de range forcé pour tester
-        ),
-        template='plotly_white')
-    fig.show()
-
 
 
 
@@ -442,6 +397,6 @@ def update_graphs(location):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True, port=8080, jupyter_mode="external")
+    app.run(debug=False, host="0.0.0.0", port=8050)
 
 
